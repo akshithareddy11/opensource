@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Admin Dashboard - Permission Management System</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .admin-container {
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .history-section {
+            margin-top: 30px;
+        }
+        .request-actions button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 admin-container">
+        <h2 class="text-center">Admin Dashboard</h2>
+
+        <div class="row">
+            <div class="col-md-6 form-section">
+                <!-- Add Co-admin Form -->
+                <h4>Add Co-admin</h4>
+                <form id="addCoAdminForm">
+                    <div class="form-group">
+                        <label for="coAdminName">Co-admin Name</label>
+                        <input type="text" class="form-control" id="coAdminName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="coAdminEmail">Co-admin Email</label>
+                        <input type="email" class="form-control" id="coAdminEmail" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Co-admin</button>
+                </form>
+            </div>
+
+            <div class="col-md-6 form-section">
+                <!-- Pending Requests Table -->
+                <h4>Pending Requests</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Co-admin Name</th>
+                            <th scope="col">Request Type</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingRequests">
+                        <!-- Sample Data - Replace with dynamic data from your server -->
+                        <tr>
+                            <td>Co-admin A</td>
+                            <td>Permission Request</td>
+                            <td class="request-actions">
+                                <button class="btn btn-success btn-sm" onclick="acceptRequest('Co-admin A')">Accept</button>
+                                <button class="btn btn-danger btn-sm" onclick="denyRequest('Co-admin A')">Deny</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Request History Section -->
+                <div class="history-section">
+                    <h4>Request History</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Co-admin Name</th>
+                                <th scope="col">Request Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestHistory">
+                            <!-- Sample Data - Replace with dynamic data from your server -->
+                            <tr>
+                                <td>Co-admin B</td>
+                                <td>Leave Request</td>
+                                <td>Approved</td>
+                                <td>2024-10-01</td>
+                            </tr>
+                            <tr>
+                                <td>Co-admin C</td>
+                                <td>Gatepass Request</td>
+                                <td>Denied</td>
+                                <td>2024-10-05</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addCoAdminForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const coAdminName = document.getElementById('coAdminName').value;
+            const coAdminEmail = document.getElementById('coAdminEmail').value;
+
+            // Replace with actual AJAX call to add co-admin
+            fetch('/api/add-co-admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: coAdminName, email: coAdminEmail })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success or error message
+                if (data.success) {
+                    document.getElementById('addCoAdminForm').reset(); // Clear the form
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        function acceptRequest(coAdminName) {
+            // Replace with actual AJAX call to accept the request
+            alert(`Request from ${coAdminName} accepted.`);
+            // Logic to remove the request from pendingRequests table or refresh the list
+        }
+
+        function denyRequest(coAdminName) {
+            // Replace with actual AJAX call to deny the request
+            alert(`Request from ${coAdminName} denied.`);
+            // Logic to remove the request from pendingRequests table or refresh the list
+        }
+    </script>
+</body>
+</html>

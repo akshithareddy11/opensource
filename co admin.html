@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Co-admin Dashboard - Permission Management System</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .coadmin-container {
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .home-icon {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 coadmin-container">
+        <div class="text-right">
+            <a href="index.html" class="btn btn-light home-icon">
+                <img src="home-icon.png" alt="Home" style="width: 24px; height: 24px;">
+            </a>
+        </div>
+        <h2 class="text-center">Co-admin Dashboard</h2>
+
+        <div class="row">
+            <div class="col-md-6 form-section">
+                <!-- Add User Form -->
+                <h4>Add User</h4>
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" class="form-control" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rollNumber">Roll Number</label>
+                        <input type="text" class="form-control" id="rollNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <select class="form-control" id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="EIE">EIE</option>
+                            <option value="ME">ME</option>
+                            <option value="CE">CE</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add User</button>
+                </form>
+            </div>
+
+            <div class="col-md-6 form-section">
+                <!-- Pending Requests Table -->
+                <h4>Pending Requests</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student Name</th>
+                            <th scope="col">Request Type</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingRequests">
+                        <!-- Example Data - Replace with dynamic data from your server -->
+                        <tr>
+                            <td>Student A</td>
+                            <td>Gatepass</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="acceptRequest('Student A')">Accept</button>
+                                <button class="btn btn-danger btn-sm" onclick="denyRequest('Student A')">Deny</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-section">
+                <!-- Send Message to Admin Form -->
+                <h4>Send Message to Admin</h4>
+                <form id="sendMessageForm">
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea class="form-control" id="message" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+
+            <div class="col-md-6 form-section">
+                <!-- Request History Table -->
+                <h4>Request History</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student Name</th>
+                            <th scope="col">Request Type</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestHistory">
+                        <!-- Example Data - Replace with dynamic data from your server -->
+                        <tr>
+                            <td>Student B</td>
+                            <td>Outpass</td>
+                            <td>Approved</td>
+                            <td>2024-10-01</td>
+                        </tr>
+                        <tr>
+                            <td>Student C</td>
+                            <td>Leave</td>
+                            <td>Denied</td>
+                            <td>2024-10-05</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const studentName = document.getElementById('studentName').value;
+            const rollNumber = document.getElementById('rollNumber').value;
+            const department = document.getElementById('department').value;
+
+            // Replace with actual AJAX call to add user
+            fetch('/api/add-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ studentName, rollNumber, department })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success or error message
+                if (data.success) {
+                    document.getElementById('addUserForm').reset(); // Clear the form
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        function acceptRequest(studentName) {
+            // Replace with actual AJAX call to accept the request
+            alert(`Request from ${studentName} accepted.`);
+            // Update the UI as needed (e.g., remove the request from pending requests)
+        }
+
+        function denyRequest(studentName) {
+            // Replace with actual AJAX call to deny the request
+            alert(`Request from ${studentName} denied.`);
+            // Update the UI as needed (e.g., remove the request from pending requests)
+        }
+
+        document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = document.getElementById('message').value;
+
+            // Replace with actual AJAX call to send message to admin
+            fetch('/api/send-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success or error message
+                if (data.success) {
+                    document.getElementById('sendMessageForm').reset(); // Clear the form
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Function to fetch request history (to be implemented)
+        function fetchRequestHistory() {
+            fetch('/api/request-history')
+                .then(response => response.json())
+                .then(data => {
+                    const historyTable = document.getElementById('requestHistory');
+                    historyTable.innerHTML = ''; // Clear existing data
+
+                    data.forEach(request => {
+                        const row = `<tr>
+                            <td>${request.studentName}</td>
+                            <td>${request.requestType}</td>
+                            <td>${request.status}</td>
+                            <td>${request.date}</td>
+                        </tr>`;
+                        historyTable.innerHTML += row; // Append new data
+                    });
+                })
+                .catch(error => console.error('Error fetching history:', error));
+        }
+
+        // Call fetchRequestHistory on page load to populate history
+        document.addEventListener('DOMContentLoaded', fetchRequestHistory);
+    </script>
+</body>
+</html>

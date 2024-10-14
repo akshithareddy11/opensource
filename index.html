@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Grant It - Permission Management System</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .login-container {
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        .error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="text-center">Grant It</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="userRole">Login as:</label>
+                <select class="form-control" id="userRole" required>
+                    <option value="">Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="co-admin">Co-admin</option>
+                    <option value="student">Student</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <div class="error-message" id="errorMessage">Incorrect username or password.</div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const userRole = document.getElementById('userRole').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simulated login check (replace with actual AJAX call)
+            if (username === 'test' && password === 'password') {
+                // Redirect based on role (replace with actual redirect logic)
+                alert(`Welcome ${userRole}!`);
+                // window.location.href = `/${userRole}-dashboard.html`; // Redirect to respective dashboard
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+
+        document.getElementById('forgotPasswordLink').addEventListener('click', function() {
+            alert('Forgot password functionality to be implemented.');
+        });
+    </script>
+</body>
+</html>
